@@ -1,0 +1,116 @@
+{{> layout/header}}
+
+<br><br>
+
+<div class="container"> <!-- 컨테이너로 전체를 감쌈 -->
+    <div class="row justify-content-center"> <!-- 중앙 정렬을 위한 row 추가 -->
+        <div class="col-md-10 mx-auto"> <!-- 내용을 중앙에 배치하기 위해 mx-auto 사용 -->
+
+            <div class="row g-5">
+
+                <!-- 내가 담은 목록 -->
+                <div class="col-md-5 col-lg-4 order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">주문 상품</span>
+                        <span class="badge bg-primary rounded-pill">2</span>
+                    </h4>
+
+                    <form action="/order-save" method="post" class="needs-validation" novalidate="">
+                        <!--  목록 리스트 1-->
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between lh-sm">
+                                <input type="hidden" name="userId" value="{{order.userId}}">
+                                <input type="hidden" name="productId" value="{{order.productId}}">
+                                <input type="hidden" name="status" value="주문완료">
+                                <div>
+                                    <input style="font-weight: bold" type="text" class="form-control" id="pName"
+                                           name="pName" value="{{order.productName}}" readonly>
+                                    <input type="text" class="form-control" id="buyQty" name="buyQty"
+                                           value="{{order.buyQty}}"
+                                           readonly>
+                                </div>
+                                <input type="text" class="form-control" id="price" name="price" value="{{order.price}}"
+                                       readonly>
+                            </li>
+                            <!--    목록 리스트 1-->
+
+                            <!--  합계 -->
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span>합계 (원)</span>
+                                <input type="text" class="form-control" id="sum" name="sum" value="{{order.sum}}"
+                                       readonly>
+                            </li>
+                            <!--   합계 -->
+                        </ul>
+
+                </div>
+                <!-- 내가 담은 목록 끝 -->
+
+                <div class="col-md-7 col-lg-8">
+                    <h4 class="mb-3">[ 주문 ]</h4>
+                    <!--주문 개인정보 적기-->
+
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <div class="mb-3 mt-3 form-group">
+                                이름 <input id="name" name="name" type="text" class="form-control"
+                                          value="{{order.name}}">
+                            </div>
+                            <div class="mb-3 mt-3 form-group">
+                                주소 <input id="address" name="address" type="text" class="form-control"
+                                          value="{{order.address}}">
+                            </div>
+                            <div class="mb-3 mt-3 form-group">
+                                전화번호 <input id="phone" name="phone" type="text" class="form-control"
+                                            value="{{order.phone}}">
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <!-- 결제 방식 -->
+                        <h4 class="mb-3">[ 결제 방법 ]</h4>
+                        <div class="my-3">
+                            <div class="form-check">
+                                <input id="credit" name="payment" type="radio" class="form-check-input"
+                                       value="신용카드">
+                                <label class="form-check-label" for="credit">신용카드</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input id="cash" name="payment" type="radio" class="form-check-input" value="계좌이체">
+                                <label class="form-check-label" for="cash">계좌이체</label>
+                            </div>
+                        </div>
+                        <!--    결제 방식-->
+                        <hr class="my-4">
+
+                        <button class="w-100 btn btn-primary btn-lg" type="submit">주문하기</button>
+                    </div>
+                    </form>
+                    <!-- 주문 개인정보 적기-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br>
+
+<script>
+    $(document).ready(function () {
+        // 폼 제출 이벤트를 가로채기
+        $('form').on('submit', function (e) {
+            // 결제 방식이 선택되었는지 확인
+            var paymentSelected = $('input[name="payment"]:checked').length > 0;
+
+            // 결제 방식이 선택되지 않았다면
+            if (!paymentSelected) {
+                e.preventDefault(); // 폼 제출 막기
+                alert('결제 방식을 선택해주세요.'); // 사용자에게 알림
+            }
+        });
+    });
+</script>
+
+
+{{> layout/footer}}
